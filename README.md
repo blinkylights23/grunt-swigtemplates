@@ -1,6 +1,10 @@
 # grunt-swigtemplates
 
-> Grunt plugin for working with swig templates.
+> This plugin is for creating [Grunt](http://gruntjs.com/) tasks that compiling Django/Jinja2 -like templates
+with Paul Armstrong's JavaScript template engine, [swig](http://paularmstrong.github.io/swig/).
+
+> grunt-swigtemplates is brand-spankin' new, and while basic functionality is currently working, it's definitely
+alpha.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.2`
@@ -26,12 +30,14 @@ In your project's Gruntfile, add a section named `swigtemplates` to the data obj
 grunt.initConfig({
   swigtemplates: {
     options: {
-      // Task-specific options go here.
+      templatesDir: 'src'
     },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+    compile: {
+      options: {},
+      dest: 'www/',
+      src: ['src/**/*.swig']
+    }
+  }
 });
 ```
 
@@ -51,7 +57,7 @@ A string value that is used to do something else with whatever else.
 
 ### Usage Examples
 
-#### Default Options
+#### Options
 In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
 
 ```js
@@ -65,25 +71,9 @@ grunt.initConfig({
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  swigtemplates: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+
+ * 2013-12-8   v0.0.1   Initial version
