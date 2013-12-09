@@ -1,6 +1,6 @@
 # grunt-swigtemplates
 
-> This plugin is for creating [Grunt](http://gruntjs.com/) tasks that compiling Django/Jinja2 -like templates
+> This plugin is for creating [Grunt](http://gruntjs.com/) tasks that compile Django/Jinja2 -like templates
 with Paul Armstrong's JavaScript template engine, [swig](http://paularmstrong.github.io/swig/).
 
 > grunt-swigtemplates is brand-spankin' new, and while basic functionality is currently working, it's definitely
@@ -40,6 +40,9 @@ grunt.initConfig({
   }
 });
 ```
+
+
+
 
 ### Options
 

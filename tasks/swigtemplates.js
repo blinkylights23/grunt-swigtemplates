@@ -22,7 +22,6 @@ module.exports = function(grunt) {
       varControls: ['{{', '}}'],
       tagControls: ['{%', '%}'],
       cmtControls: ['{#', '#}'],
-      locals: {},
       filters: {},
       tags: {},
       context: {},
@@ -65,6 +64,12 @@ module.exports = function(grunt) {
         grunt.util._.extend(context, globalContext, templateContext);
 
         // Write the destination file.
+        swig.setDefaults({
+          autoescape: options.autoEscape,
+          varControls: options.varControls,
+          tagControls: options.tagControls,
+          cmtControls: options.cmtControls
+        });
         grunt.file.write(outfile, swig.renderFile(filepath, context));
 
         // Print a success message.
