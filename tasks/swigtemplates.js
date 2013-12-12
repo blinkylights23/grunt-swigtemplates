@@ -47,7 +47,7 @@ module.exports = function(grunt) {
             outfile = path.join(f.dest, outfilePath, outfileName);
 
         // Get context
-        var context = options.context,
+        var context = f.context,
             globalContext,
             templateContext;
         try {
