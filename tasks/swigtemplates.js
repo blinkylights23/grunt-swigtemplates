@@ -11,10 +11,31 @@
 module.exports = function(grunt) {
 
   var fs = require('fs'),
+      util = require('util'),
       swig = require('swig'),
+      _ = require('lodash'),
       path = require('path');
 
-  grunt.registerMultiTask('swigtemplates', 'Grunt plugin for working with swig templates.', function() {
+
+  var inspect = function(obj) {
+    var inspectOpts = {
+      showHidden: true,
+      depth: null,
+      colors: true
+    };
+    return util.inspect(obj, inspectOpts);
+  };
+
+
+  grunt.registerMultiTask('swigtemplates', 'Grunt plugin for working with swig templates.', function(target) {
+
+
+    // Context precedence order
+    // 1. global.json
+    // 2. myfile.ext.json
+    // 3. options: { defaultContext: {} }
+    // 4. target: { context: {} }
+
 
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
@@ -24,9 +45,11 @@ module.exports = function(grunt) {
       cmtControls: ['{#', '#}'],
       filters: {},
       tags: {},
-      context: {},
+      defaultContext: {},
       templatesDir: '.'
     });
+
+    var data = this.data;
 
 
     // Iterate over all specified file groups.
@@ -47,9 +70,9 @@ module.exports = function(grunt) {
             outfile = path.join(f.dest, outfilePath, outfileName);
 
         // Get context
-        var context = f.context,
-            globalContext,
+        var globalContext,
             templateContext;
+
         try {
           globalContext = grunt.file.readJSON(path.join(options.templatesDir, "global.json"));
         } catch(err) {
@@ -61,7 +84,7 @@ module.exports = function(grunt) {
         } catch(err) {
           templateContext = {};
         }
-        grunt.util._.extend(context, globalContext, templateContext);
+        var context = _.extend({}, globalContext, templateContext, options.defaultContext, f.context);
 
         // Write the destination file.
         swig.setDefaults({
@@ -73,7 +96,7 @@ module.exports = function(grunt) {
         grunt.file.write(outfile, swig.renderFile(filepath, context));
 
         // Print a success message.
-        grunt.log.writeln('File "' + outfile + '" created.');
+        grunt.log.ok('File "' + outfile + '" created.');
       });
 
     });

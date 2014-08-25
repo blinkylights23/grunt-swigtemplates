@@ -31,10 +31,17 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     swigtemplates: {
       options: {
-        templatesDir: 'test/fixtures'
+        templatesDir: 'test/fixtures',
+        defaultContext: {
+          defaultContext: 'defaultContext',
+          overrideContext: 'defaultContext'
+        }
       },
       test: {
         options: {},
+        context: {
+          overrideContext: 'target.context'
+        },
         dest: 'tmp/',
         src: ['test/fixtures/**/*.swig']
       }
