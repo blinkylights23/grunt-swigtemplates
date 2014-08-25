@@ -35,6 +35,16 @@ module.exports = function(grunt) {
         defaultContext: {
           defaultContext: 'defaultContext',
           overrideContext: 'defaultContext'
+        },
+        filters: {
+          racecar: function(input) {
+            return 'racecar';
+          }
+        },
+        locals: {
+          testMe: function() {
+            return 'Hello from testMe!';
+          }
         }
       },
       test: {

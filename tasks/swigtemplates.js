@@ -43,14 +43,27 @@ module.exports = function(grunt) {
       varControls: ['{{', '}}'],
       tagControls: ['{%', '%}'],
       cmtControls: ['{#', '#}'],
+      locals: {},
       filters: {},
-      tags: {},
       defaultContext: {},
       templatesDir: '.'
     });
 
     var data = this.data;
 
+    // Configure swig
+    swig.setDefaults({
+      locals: options.locals,
+      autoescape: options.autoEscape,
+      varControls: options.varControls,
+      tagControls: options.tagControls,
+      cmtControls: options.cmtControls
+    });
+
+    // Swig custom filters
+    Object.keys(options.filters).forEach(function(key) {
+      swig.setFilter(key, options.filters[key]);
+    });
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
@@ -87,12 +100,6 @@ module.exports = function(grunt) {
         var context = _.extend({}, globalContext, templateContext, options.defaultContext, f.context);
 
         // Write the destination file.
-        swig.setDefaults({
-          autoescape: options.autoEscape,
-          varControls: options.varControls,
-          tagControls: options.tagControls,
-          cmtControls: options.cmtControls
-        });
         grunt.file.write(outfile, swig.renderFile(filepath, context));
 
         // Print a success message.
