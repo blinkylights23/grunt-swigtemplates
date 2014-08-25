@@ -61,3 +61,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
  * 2013-12-08   v0.0.1   Initial version
  * 2014-08-25   v0.0.2   Updated context precedence
+ * 2014-08-25   v0.0.3   Filters and locals
