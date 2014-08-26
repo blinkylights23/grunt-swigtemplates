@@ -14,7 +14,8 @@ module.exports = function(grunt) {
       util = require('util'),
       swig = require('swig'),
       _ = require('lodash'),
-      path = require('path');
+      path = require('path'),
+      i18n = require('./i18n');
 
 
   var inspect = function(obj) {
