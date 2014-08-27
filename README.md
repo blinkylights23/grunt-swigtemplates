@@ -51,6 +51,12 @@ grunt.initConfig({
 });
 ```
 
+#### Context precedence
+1. Define a file called `globals.json` in your `templatesDir`, and any values you set there will be added into context
+2. For a given file, `myfile.html.swig`, you can define file-specific context values by creating a companion file,`myfile.html.json` in the same folder with values that will override anything set in `globals.json`
+3. Context values set in `options.defaultContext` will override anything in filesystem JSON files
+4. Target-specific context values will replace anything else
+
 ### Options
 
 #### options.defaultContext
@@ -101,7 +107,7 @@ on individual `swigtemplates` targets.
 
 #### options.defaultLocale
 * Type: `String`
-* Default value: `undefined`,
+* Default value: `undefined`
 
 #### options.translateFunction
 * Type: `Function`
