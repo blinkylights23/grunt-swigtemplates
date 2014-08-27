@@ -44,6 +44,9 @@ module.exports = function(grunt) {
         locals: {
           testMe: function() {
             return 'Hello from testMe!';
+          },
+          reverse: function(msg) {
+            return msg.split('').reverse().join('');
           }
         },
         locales: ['en-US', 'fr-FR'],

@@ -167,3 +167,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
  * 2014-08-25   v0.0.2   Updated context precedence
  * 2014-08-25   v0.0.3   Filters and locals
  * 2014-08-27   v0.0.4   Simple internationalization
+ * 2014-08-27   v0.0.5   Minor change
+
