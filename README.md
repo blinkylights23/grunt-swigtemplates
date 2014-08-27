@@ -73,10 +73,36 @@ on individual `swigtemplates` targets.
 * Type: `String`
 * Default value: `'.'`
 
+Use `templatesDir` to define where `grunt-swigtemplates` will look for globals.json and file-specific JSON context.
+
 #### options.locals
 
 * Type: `Object`
 * Default value: `{}`
+
+Set local values that will be available in all swig templates. This can be especially useful if you want to add a
+callable function into the context without having to build a custom tag.
+
+```js
+swigtemplates {
+  options: {
+    locals: {
+      reverse: function(msg) {
+        return msg.split('').reverse().join('');
+      }
+    }
+  }
+}
+```
+
+```html
+<p>{{ reverse('Racecar!') }}</p>
+```
+
+```html
+<p>!racecaR</p>
+```
+
 
 #### options.filters
 
