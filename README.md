@@ -54,29 +54,62 @@ grunt.initConfig({
 ### Options
 
 #### options.defaultContext
-Type: `Object`
-Default value: `{}`
+
+ * Type:   `Object`
+ * Default value:   `{}`
 
 A default context object passed into swig templates during processing. These values will override any that were
 set on the file system with `global.json` or `myfile.html.json`, and can be overridden by the `context` property
 on individual `swigtemplates` targets.
 
 #### options.templatesDir
-Type: `String`
-Default value: `'.'`
 
-locals: {},
-filters: {},
+* Type: `String`
+* Default value:   `'.'`
 
-autoEscape: true,
-tagControls: ['{%', '%}'],
-varControls: ['{{', '}}'],
-cmtControls: ['{#', '#}'],
+#### options.locals
 
-locales: [],
-defaultLocale: undefined,
-translateFunction: function(locale, msg) { return msg; },
-translateFunctionName: '__', 
+* Type: `Object`
+* Default value: `{}`,
+
+#### options.filters
+
+* Type: `Object`
+* Default value: `{}`,
+
+#### options.autoEscape
+
+* Type: `Boolean`
+* Default value: `true`
+
+#### options.tagControls
+
+* Type: `Array`
+* Default value: ['{%', '%}']
+
+#### options.varControls
+* Type: `Array`
+* Default value: ['{{', '}}'],
+
+#### options.cmtControls
+* Type: `Array`
+* Default value: ['{#', '#}'],
+
+#### options.locales
+* Type: `Array`
+* Default value: [],
+
+#### options.defaultLocale
+* Type: `String`
+* Default value: undefined,
+
+#### options.translateFunction
+* Type: `Function`
+* Default value: function(locale, msg) { return msg; },
+
+#### options.translateFunctionName
+* Type: `String`
+* Default value: '__', 
 
 
 
