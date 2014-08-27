@@ -1,8 +1,9 @@
 # grunt-swigtemplates
 
-`grunt-swigtemplates` is a Grunt plugin for processing [swig](http://paularmstrong.github.io/swig/) templates.
-It'll be most useful when using swig as the templating engine for static sites, but should be general enough
-to be useful in other scenarios as well. The plugin also includes a simple mechanism for building localized
+Use `grunt-swigtemplates` to create grunt tasks for processing your [swig](http://paularmstrong.github.io/swig/)
+templates. It'll be most useful when using swig as the templating engine for static sites, but should be general enough
+to be useful in other scenarios as well. The plugin includes methods for defining template variables with JSON files
+on the filesystem, or by defining them in the Grunt config. It also includes a simple mechanism for building localized
 versions of your static site using whatever internationalization tools you prefer.
 
 
@@ -29,17 +30,93 @@ In your project's Gruntfile, add a section named `swigtemplates` to the data obj
 ```js
 grunt.initConfig({
   swigtemplates: {
+    options: {
+      defaultContext: {
+        pageTitle: 'My Title'
+      },
+      templatesDir: 'src/swig'
+    },
+    production: {
+      dest: 'build/',
+      src: ['src/swig/**/*.swig']
+    },
+    staging: {
+      context: {
+        pageTitle: 'My Title (staging)'
+      },
+      dest: 'build/',
+      src: ['src/swig/**/*.swig']
+    }
   }
 });
 ```
 
+#### Context precedence
+1. Define a file called `globals.json` in your `templatesDir`, and any values you set there will be added into context
+2. For a given file, `myfile.html.swig`, you can define file-specific context values by creating a companion file,`myfile.html.json` in the same folder with values that will override anything set in `globals.json`
+3. Context values set in `options.defaultContext` will override anything in filesystem JSON files
+4. Target-specific context values will replace anything else
+
 ### Options
 
-#### options.myOption
-Type: `Boolean`
-Default value: `true`
+#### options.defaultContext
 
-With `options.myOption` set to `true`...
+ * Type: `Object`
+ * Default value: `{}`
+
+A default context object passed into swig templates during processing. These values will override any that were
+set on the file system with `global.json` or `myfile.html.json`, and can be overridden by the `context` property
+on individual `swigtemplates` targets.
+
+#### options.templatesDir
+
+* Type: `String`
+* Default value: `'.'`
+
+#### options.locals
+
+* Type: `Object`
+* Default value: `{}`
+
+#### options.filters
+
+* Type: `Object`
+* Default value: `{}`
+
+#### options.autoEscape
+
+* Type: `Boolean`
+* Default value: `true`
+
+#### options.tagControls
+
+* Type: `Array`
+* Default value: `['{%', '%}']`
+
+#### options.varControls
+* Type: `Array`
+* Default value: `['{{', '}}']`
+
+#### options.cmtControls
+* Type: `Array`
+* Default value: `['{#', '#}']`
+
+#### options.locales
+* Type: `Array`
+* Default value: `[]`
+
+#### options.defaultLocale
+* Type: `String`
+* Default value: `undefined`
+
+#### options.translateFunction
+* Type: `Function`
+* Default value: `function(locale, msg) { return msg; }`
+
+#### options.translateFunctionName
+* Type: `String`
+* Default value: `'__'`
+
 
 
 ### Usage Examples
