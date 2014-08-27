@@ -1,8 +1,9 @@
 # grunt-swigtemplates
 
-`grunt-swigtemplates` is a Grunt plugin for processing [swig](http://paularmstrong.github.io/swig/) templates.
-It'll be most useful when using swig as the templating engine for static sites, but should be general enough
-to be useful in other scenarios as well. The plugin also includes a simple mechanism for building localized
+Use `grunt-swigtemplates` to create grunt tasks for processing your [swig](http://paularmstrong.github.io/swig/)
+templates. It'll be most useful when using swig as the templating engine for static sites, but should be general enough
+to be useful in other scenarios as well. The plugin includes methods for defining template variables with JSON files
+on the filesystem, or by defining them in the Grunt config. It also includes a simple mechanism for building localized
 versions of your static site using whatever internationalization tools you prefer.
 
 
@@ -29,17 +30,54 @@ In your project's Gruntfile, add a section named `swigtemplates` to the data obj
 ```js
 grunt.initConfig({
   swigtemplates: {
+    options: {
+      defaultContext: {
+        pageTitle: 'My Title'
+      },
+      templatesDir: 'src/swig'
+    },
+    production: {
+      dest: 'build/',
+      src: ['src/swig/**/*.swig']
+    },
+    staging: {
+      context: {
+        pageTitle: 'My Title (staging)'
+      },
+      dest: 'build/',
+      src: ['src/swig/**/*.swig']
+    }
   }
 });
 ```
 
 ### Options
 
-#### options.myOption
-Type: `Boolean`
-Default value: `true`
+#### options.defaultContext
+Type: `Object`
+Default value: `{}`
 
-With `options.myOption` set to `true`...
+A default context object passed into swig templates during processing. These values will override any that were
+set on the file system with `global.json` or `myfile.html.json`, and can be overridden by the `context` property
+on individual `swigtemplates` targets.
+
+#### options.templatesDir
+Type: `String`
+Default value: `'.'`
+
+locals: {},
+filters: {},
+
+autoEscape: true,
+tagControls: ['{%', '%}'],
+varControls: ['{{', '}}'],
+cmtControls: ['{#', '#}'],
+
+locales: [],
+defaultLocale: undefined,
+translateFunction: function(locale, msg) { return msg; },
+translateFunctionName: '__', 
+
 
 
 ### Usage Examples
