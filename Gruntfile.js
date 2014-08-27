@@ -45,7 +45,9 @@ module.exports = function(grunt) {
           testMe: function() {
             return 'Hello from testMe!';
           }
-        }
+        },
+        locales: ['en-US', 'fr-FR'],
+        defaultLocale: 'en-US'
       },
       test: {
         options: {},

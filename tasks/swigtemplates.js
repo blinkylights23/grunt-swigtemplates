@@ -14,8 +14,7 @@ module.exports = function(grunt) {
       util = require('util'),
       swig = require('swig'),
       _ = require('lodash'),
-      path = require('path'),
-      i18n = require('./i18n');
+      path = require('path');
 
 
   var inspect = function(obj) {
@@ -45,12 +44,25 @@ module.exports = function(grunt) {
       tagControls: ['{%', '%}'],
       cmtControls: ['{#', '#}'],
       locals: {},
+      locales: [],
+      defaultLocale: undefined,
+      translateFunction: function(locale, msg) { return msg; },
+      translateFunctionName: '__', 
       filters: {},
       defaultContext: {},
       templatesDir: '.'
     });
+    var data = this.data,
+        useI18n = false;
 
-    var data = this.data;
+    // Localization settings
+    if (options.locales.length > 0) { useI18n = true; }
+    if (useI18n && options.defaultLocale && options.locales.indexOf(options.defaultLocale) === -1) {
+      grunt.log.error('Default locale ' + options.defaultLocale + ' not in configured locales: ' + inspect(options.locales));
+    }
+    if (useI18n) {
+      options.locals[options.translateFunctionName] = options.translateFunction;
+    }
 
     // Configure swig
     swig.setDefaults({
@@ -100,11 +112,23 @@ module.exports = function(grunt) {
         }
         var context = _.extend({}, globalContext, templateContext, options.defaultContext, f.context);
 
-        // Write the destination file.
-        grunt.file.write(outfile, swig.renderFile(filepath, context));
+        // Write the destination file(s).
+        if (useI18n) {
+          context.locales = options.locales;
+          options.locales.forEach(function(l) {
+            var localizedOutFile = outfile;
+            if (l !== options.defaultLocale) {
+              localizedOutFile = path.join(f.dest, l, outfilePath, outfileName);
+            }
+            context.locale = l;
+            grunt.file.write(localizedOutFile, swig.renderFile(filepath, context));
+            grunt.log.ok('File "' + localizedOutFile + '" created.');
+          });
+        } else {
+          grunt.file.write(outfile, swig.renderFile(filepath, context));
+          grunt.log.ok('File "' + outfile + '" created.');
+        }
 
-        // Print a success message.
-        grunt.log.ok('File "' + outfile + '" created.');
       });
 
     });

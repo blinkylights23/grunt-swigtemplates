@@ -10,15 +10,29 @@
 
 var vsprintf = require('sprintf').vsprintf,
   fs = require('fs'),
+  util = require('util'),
   _ = require('lodash'),
   path = require('path');
 
 
+var inspect = function(obj) {
+  var inspectOpts = {
+    showHidden: true,
+    depth: null,
+    colors: true
+  };
+  return util.inspect(obj, inspectOpts);
+};
+
+
 var I18n = function(options) {
+  if(!options || typeof options !== 'object') {
+    options = {};
+  }
 
   var defaultOptions = {
     directory: './locales',
-    extension: 'json',
+    extension: '.json',
     locale: undefined,
     locales: []
   };
@@ -30,9 +44,13 @@ var I18n = function(options) {
   this.localeData = {};
 
   if (this.locales.length < 1) {
-    throw('We need to define at least one locale');
+    console.error('We need to define at least one locale');
+    throw('Missing locale info');
   }
-  this.setLocale(this.locales);
+  if (!this.locale) {
+    this.locale = this.locales[0];
+  }
+  this.setLocale(this.locale);
 
 };
 
@@ -40,7 +58,7 @@ I18n.prototype.setLocale = function(locale) {
   if (!locale) {
     locale = this.locales[0];
   }
-  if (!this.locales[locale]) {
+  if (this.locales.indexOf(locale) === -1) {
     console.warn('Locale ' + locale + ' is not one of our defined locales');
     locale = this.locales[0];
   }
@@ -87,11 +105,11 @@ I18n.prototype.__n = function(singular, plural, count) {
 
 I18n.prototype.translate = function(locale, singular, plural) {
   if (!this.localeData[locale][singular]) {
-    this.locales[locale][singular] = plural ?
+    this.localeData[locale][singular] = plural ?
       { one: singular, other: plural } :
       singular;
   }
-  return this.locales[locale][singular];
+  return this.localeData[locale][singular];
 };
 
 
