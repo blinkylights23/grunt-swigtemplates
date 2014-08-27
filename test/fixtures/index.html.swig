@@ -3,4 +3,4 @@
 {{ globalOverride }}
 {{ globalInherit|racecar }}
 {{ testMe() }}
-{{ __(locale, 'Hi!') }}
+{{ __('Hi!') }}

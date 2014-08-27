@@ -60,8 +60,8 @@ module.exports = function(grunt) {
     if (useI18n && options.defaultLocale && options.locales.indexOf(options.defaultLocale) === -1) {
       grunt.log.error('Default locale ' + options.defaultLocale + ' not in configured locales: ' + inspect(options.locales));
     }
-    if (useI18n) {
-      options.locals[options.translateFunctionName] = options.translateFunction;
+    if (!useI18n) {
+      swig.setDefaults({ locals: options.locals });
     }
 
     // Configure swig
@@ -121,6 +121,12 @@ module.exports = function(grunt) {
               localizedOutFile = path.join(f.dest, l, outfilePath, outfileName);
             }
             context.locale = l;
+            options.locals[options.translateFunctionName] = function() {
+              var args = Array.prototype.slice.call(arguments);
+              args.unshift(l);
+              return options.translateFunction.apply(this, args);
+            };
+            swig.setDefaults({ locals: options.locals });
             grunt.file.write(localizedOutFile, swig.renderFile(filepath, context));
             grunt.log.ok('File "' + localizedOutFile + '" created.');
           });
