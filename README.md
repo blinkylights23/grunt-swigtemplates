@@ -83,8 +83,7 @@ Use `templatesDir` to define where `grunt-swigtemplates` will look for globals.j
 Set local values that will be available in all swig templates. This can be especially useful if you want to add a
 callable function into the context without having to build a custom tag.
 
-js
-```
+```js
 swigtemplates {
   options: {
     locals: {
@@ -96,13 +95,11 @@ swigtemplates {
 }
 ```
 
-html
-```
+```html
 <p>{{ reverse('Racecar!') }}</p>
 ```
 
-html
-```
+```html
 <p>!racecaR</p>
 ```
 
