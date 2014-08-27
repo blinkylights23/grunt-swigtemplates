@@ -1,13 +1,13 @@
 # grunt-swigtemplates
 
-This plugin is for creating [Grunt](http://gruntjs.com/) tasks that compile Django/Jinja2 -like templates
-with Paul Armstrong's JavaScript template engine, [swig](http://paularmstrong.github.io/swig/).
+`grunt-swigtemplates` is a Grunt plugin for processing [swig](http://paularmstrong.github.io/swig/) templates.
+It'll be most useful when using swig as the templating engine for static sites, but should be general enough
+to be useful in other scenarios as well. The plugin also includes a simple mechanism for building localized
+versions of your static site using whatever internationalization tools you prefer.
 
-`grunt-swigtemplates` is brand-spankin' new, and while basic functionality is currently working, it's definitely
-alpha.
 
 ## Getting Started
-This plugin requires Grunt `~0.4.2`
+This plugin requires Grunt `~0.4.5`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -29,32 +29,33 @@ In your project's Gruntfile, add a section named `swigtemplates` to the data obj
 ```js
 grunt.initConfig({
   swigtemplates: {
-    options: {
-      templatesDir: 'src'
-    },
-    compile: {
-      options: {},
-      dest: 'www/',
-      src: ['src/**/*.swig']
-    }
   }
 });
 ```
 
-
-
-
 ### Options
-Coming soon
+
+#### options.myOption
+Type: `Boolean`
+Default value: `true`
+
+With `options.myOption` set to `true`...
 
 
 ### Usage Examples
-Coming soon
 
+#### Default Options
+
+```js
+grunt.initConfig({
+  swigtemplates: {
+  }
+});
+
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
 
 
 ## Release History
@@ -62,3 +63,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
  * 2013-12-08   v0.0.1   Initial version
  * 2014-08-25   v0.0.2   Updated context precedence
  * 2014-08-25   v0.0.3   Filters and locals
+ * 2014-08-27   v0.0.4   Simple internationalization
