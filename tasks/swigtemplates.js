@@ -123,8 +123,7 @@ module.exports = function(grunt) {
             context.locale = l;
             options.locals[options.translateFunctionName] = function() {
               var args = Array.prototype.slice.call(arguments);
-              args.unshift(l);
-              return options.translateFunction.apply(this, args);
+              return options.translateFunction(l, args);
             };
             swig.setDefaults({ locals: options.locals });
             grunt.file.write(localizedOutFile, swig.renderFile(filepath, context));
