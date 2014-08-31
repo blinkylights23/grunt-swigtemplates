@@ -109,6 +109,10 @@ swigtemplates {
 * Type: `Object`
 * Default value: `{}`
 
+Adds custom swig filters. See the [swig documentation](http://paularmstrong.github.io/swig/docs/extending/#filters)
+on extending swig with custom filters for more information.
+
+
 #### options.autoEscape
 
 * Type: `Boolean`
