@@ -138,18 +138,14 @@ module.exports = function(grunt) {
       var globalContext,
           templateContext;
 
-      console.log(pathInfo);
-
       try {
         globalContext = grunt.file.readJSON(path.join(options.templatesDir, "global.json"));
       } catch(err) {
-        console.log('Error: ', err);
         globalContext = {};
       }
       try {
         templateContext = grunt.file.readJSON(path.join(pathInfo.dirName, pathInfo.outfileName) + ".json");
       } catch(err) {
-        console.log('Error: ', err);
         templateContext = {};
       }
       return _.extend({}, globalContext, templateContext, options.defaultContext, context);
