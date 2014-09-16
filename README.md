@@ -1,10 +1,6 @@
 # grunt-swigtemplates
 
-Use `grunt-swigtemplates` to create grunt tasks for processing your [swig](http://paularmstrong.github.io/swig/)
-templates. It'll be most useful when using swig as the templating engine for static sites, but should be general enough
-to be useful in other scenarios as well. The plugin includes methods for defining template variables with JSON files
-on the filesystem, or by defining them in the Grunt config. It also includes a simple mechanism for building localized
-versions of your static site using whatever internationalization tools you prefer.
+Use `grunt-swigtemplates` to create grunt tasks for processing your [swig](http://paularmstrong.github.io/swig/) templates. It'll be most useful when using swig as the templating engine for static sites, but should be general enough to be useful in other scenarios as well. The plugin includes methods for defining template variables with JSON files on the filesystem, or by defining them in the Grunt config. It also includes a simple mechanism for building localized versions of your static site using whatever internationalization tools you prefer.
 
 
 ## Getting Started
@@ -22,40 +18,48 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-swigtemplates');
 ```
 
+## Features
+* Easy static sites using swig's Django/Jinja2-like syntax
+* Multiple, flexible ways of setting template syntax
+* Simple localization using whatever i18n tools you prefer
+* Use Grunt to define custom template filters and locals
+* Gracefully handle i18n functions (and soon, locals) that return promises
+
 ## The "swigtemplates" task
 
 ### Overview
-In your project's Gruntfile, add a section named `swigtemplates` to the data object passed into `grunt.initConfig()`.
+Configure Grunt to use swigtemplates to generate static HTML:
 
 ```js
-grunt.initConfig({
-  swigtemplates: {
-    options: {
-      defaultContext: {
-        pageTitle: 'My Title'
-      },
-      templatesDir: 'src/swig'
+swigtemplates: {
+  options: {
+    defaultContext: {
+      pageTitle: 'My Title'
     },
-    production: {
-      dest: 'build/',
-      src: ['src/swig/**/*.swig']
+    templatesDir: 'src/swig'
+  },
+  production: {
+    dest: 'build/production/',
+    src: ['src/swig/**/*.swig']
+  },
+  staging: {
+    context: {
+      pageTitle: 'My Title (staging)'
     },
-    staging: {
-      context: {
-        pageTitle: 'My Title (staging)'
-      },
-      dest: 'build/',
-      src: ['src/swig/**/*.swig']
-    }
+    dest: 'build/staging/',
+    src: ['src/swig/**/*.swig']
   }
-});
+}
 ```
 
-#### Context precedence
+Unsurprisingly, `grunt-swigtemplates` will create files in your `dest` folder for each of the templates you've created in `src`. Your template filenames should take the form, `<filename>.<extension>.swig`, which will result in destination files, `<filename>.<extension>`. Template context variables can be set in a number of ways, and will be evaluated in this order of precedence:
+
 1. Define a file called `globals.json` in your `templatesDir`, and any values you set there will be added into context
-2. For a given file, `myfile.html.swig`, you can define file-specific context values by creating a companion file,`myfile.html.json` in the same folder with values that will override anything set in `globals.json`
+2. For a given file, `myfile.html.swig`, you can define file-specific context values by creating a companion file,`myfile.html.json` in the same folder. Values defined here will override anything set in `globals.json`
 3. Context values set in `options.defaultContext` will override anything in filesystem JSON files
-4. Target-specific context values will replace anything else
+4. Target-specific context values (like pageTitle in the staging target above) will replace anything else
+
+
 
 ### Options
 
