@@ -148,29 +148,67 @@ swigtemplates {
 * Type: `Boolean`
 * Default value: `true`
 
-By default, swig escapes all variable data for safe HTML. Change this to false to prevent this. Note: that's actually not a super-awesome idea unless you have really compelling reason to do it.
-
-In almost every case, you'll be better off explicitly turning off escaping only for specific variables. For variables you trust, you can turn off escaping with swig's built-in [safe filter](http://paularmstrong.github.io/swig/docs/filters/#safe).
+By default, swig escapes all variable data for safe HTML. Change `autoEscape` to `false` to prevent this behavior. Note: that's actually not a super-awesome idea unless you have really compelling reason for doing so. In almost every case, you'll be better off explicitly turning off escaping only for specific variables. For variables you trust, you can turn off escaping with swig's built-in [safe filter](http://paularmstrong.github.io/swig/docs/filters/#safe).
 
 #### options.tagControls
 
 * Type: `Array`
 * Default value: `['{%', '%}']`
 
+Change the opening and closing markers for template tags.
 
 #### options.varControls
 * Type: `Array`
 * Default value: `['{{', '}}']`
+
+Change the opening and closing markers for variables in templates.
 
 
 #### options.cmtControls
 * Type: `Array`
 * Default value: `['{#', '#}']`
 
+Change the opening and closing markers for comments.
+
 
 #### options.locales
 * Type: `Array`
 * Default value: `[]`
+
+Use this to define a list of locales (or language versions, or whatever suits your needs). `grunt-swigtemplates` will create a new folder for each of these items and publish a localized version of your site in each folder.
+
+Given this configuration:
+```js
+swigtemplates: {
+  options: {
+    locales: ['en-US', 'es-US'],
+    translationFunction: myTranslator,
+    templatesDir: 'src/swig'
+  },
+  mySite: {
+    dest: 'build/',
+    src: ['src/swig/**/*.swig']
+  }
+}
+```
+
+...you'll get something like this:
+```
+Gruntfile.js
+build/
+  en-US/
+    about.html
+    index.html
+  es-US/
+    about.html
+    index.html
+src/
+  global.json
+  about.html.json
+  about.html.swig
+  index.html.json
+  index.html.swig
+```
 
 
 #### options.defaultLocale
