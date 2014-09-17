@@ -60,7 +60,6 @@ Unsurprisingly, `grunt-swigtemplates` will create files in your `dest` folder fo
 4. Target-specific context values (like pageTitle in the staging target above) will replace anything else
 
 
-
 ### Options
 
 #### options.defaultContext
@@ -77,7 +76,7 @@ on individual `swigtemplates` targets.
 * Type: `String`
 * Default value: `'.'`
 
-Use `templatesDir` to define where `grunt-swigtemplates` will look for globals.json and file-specific JSON context.
+Use `templatesDir` to define where `grunt-swigtemplates` will look for globals.json.
 
 #### options.locals
 
@@ -99,10 +98,12 @@ swigtemplates {
 }
 ```
 
+**Template**
 ```html
 <p>{{ reverse('Racecar!') }}</p>
 ```
 
+**Result**
 ```html
 <p>!racecaR</p>
 ```
@@ -115,6 +116,32 @@ swigtemplates {
 
 Adds custom swig filters. See the [swig documentation](http://paularmstrong.github.io/swig/docs/extending/#filters)
 on extending swig with custom filters for more information.
+
+```js
+swigtemplates {
+  options: {
+    defaultContext: {
+      myStr: 'Racecar!'
+    },
+    filters: {
+      reverse: function(msg) {
+        return msg.split('').reverse().join('');
+      }
+    }
+  }
+}
+```
+
+**Template**
+```html
+<p>{{ myStr|reverse }}</p>
+```
+
+**Result**
+```html
+<p>!racecaR</p>
+```
+
 
 
 #### options.autoEscape
