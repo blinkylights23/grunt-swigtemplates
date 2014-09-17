@@ -143,36 +143,45 @@ swigtemplates {
 ```
 
 
-
 #### options.autoEscape
 
 * Type: `Boolean`
 * Default value: `true`
+
+By default, swig escapes all variable data for safe HTML. Change this to false to prevent this. Note: that's actually not a super-awesome idea unless you have really compelling reason to do it.
+
+In almost every case, you'll be better off explicitly turning off escaping only for specific variables. For variables you trust, you can turn off escaping with swig's built-in [safe filter](http://paularmstrong.github.io/swig/docs/filters/#safe).
 
 #### options.tagControls
 
 * Type: `Array`
 * Default value: `['{%', '%}']`
 
+
 #### options.varControls
 * Type: `Array`
 * Default value: `['{{', '}}']`
+
 
 #### options.cmtControls
 * Type: `Array`
 * Default value: `['{#', '#}']`
 
+
 #### options.locales
 * Type: `Array`
 * Default value: `[]`
+
 
 #### options.defaultLocale
 * Type: `String`
 * Default value: `undefined`
 
+
 #### options.translateFunction
 * Type: `Function`
 * Default value: `function(locale, msg) { return msg; }`
+
 
 #### options.translateFunctionName
 * Type: `String`
