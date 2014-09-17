@@ -175,9 +175,9 @@ Change the opening and closing markers for comments.
 * Type: `Array`
 * Default value: `[]`
 
-Use this to define a list of locales (or language versions, or whatever suits your needs). `grunt-swigtemplates` will create a new folder for each of these items and publish a localized version of your site in each folder.
+Use this to define a list of locales (or language codes, or whatever suits your needs). `grunt-swigtemplates` will create a new folder for each of these items and publish a localized version of your site in each folder.
 
-Given this configuration:
+So. Given this configuration:
 ```js
 swigtemplates: {
   options: {
@@ -215,10 +215,50 @@ src/
 * Type: `String`
 * Default value: `undefined`
 
+When doing localization, use `defaultLocale` to set one of the things you've defined in `options.locales` as the default. By doing so, your default locale won't get buried behind a locale-specific folder.
+
+Given this configuration:
+```js
+swigtemplates: {
+  options: {
+    locales: ['en-US', 'es-US'],
+    defaultLocale: 'en-US',
+    translationFunction: myTranslator,
+    templatesDir: 'src/swig'
+  },
+  mySite: {
+    dest: 'build/',
+    src: ['src/swig/**/*.swig']
+  }
+}
+```
+
+...you'll get something like this:
+```
+Gruntfile.js
+build/
+  about.html
+  index.html
+  es-US/
+    about.html
+    index.html
+src/
+  global.json
+  about.html.json
+  about.html.swig
+  index.html.json
+  index.html.swig
+```
+
 
 #### options.translateFunction
 * Type: `Function`
-* Default value: `function(locale, msg) { return msg; }`
+* Default value: `function(locale) { return function(msg) { return msg; } }`
+
+A function that accepts a locale (one of the things defined in `options.locales`), and returns either:
+
+* A function that does your translating for you - the function called from your templates with `options.translateFunctionName`
+* A promise that returns a function to be used for `options.translateFunctionName`
 
 
 #### options.translateFunctionName
