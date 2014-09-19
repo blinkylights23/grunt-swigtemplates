@@ -1,3 +1,4 @@
+
 # grunt-swigtemplates
 
 Use `grunt-swigtemplates` to create grunt tasks for processing your [swig](http://paularmstrong.github.io/swig/) templates. It'll be most useful when using swig as the templating engine for static sites, but should be general enough to be useful in other scenarios as well. The plugin includes methods for defining template variables with JSON files on the filesystem, or by defining them in the Grunt config. It also includes a simple mechanism for building localized versions of your static site using whatever internationalization tools you prefer.
@@ -265,6 +266,11 @@ A function that accepts a locale (one of the things defined in `options.locales`
 * Type: `String`
 * Default value: `'__'`
 
+The identifier you'll use to call the translation function from within the templates.
+
+```html
+<p>{{ __('Hello') }}</p>
+```
 
 
 ### Usage Examples
