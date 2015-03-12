@@ -1,7 +1,7 @@
 {
   "name": "grunt-swigtemplates",
   "description": "Grunt plugin for working with swig templates.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/blinkylights23/grunt-swigtemplates",
   "author": {
     "name": "Paul Smith",
