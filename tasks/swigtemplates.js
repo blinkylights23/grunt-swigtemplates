@@ -32,6 +32,7 @@ module.exports = function(grunt) {
 
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
+      cache: false,
       autoEscape: true,
       varControls: ['{{', '}}'],
       tagControls: ['{%', '%}'],
@@ -56,6 +57,7 @@ module.exports = function(grunt) {
 
     // Configure swig
     swig.setDefaults({
+      cache: options.cache,
       locals: options.locals,
       autoescape: options.autoEscape,
       varControls: options.varControls,
