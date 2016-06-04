@@ -81,7 +81,7 @@ module.exports = function(grunt) {
     function handleFiles(files) {
       files.forEach(function(f) {
         f.src.filter(srcExists).map(function(filepath) {
-          var pathInfo = getPathInfo(filepath, f.dest),
+          var pathInfo = getPathInfo(filepath, f),
               context = getContext(f.context, pathInfo);
           renderFile(pathInfo.outfile, filepath, context);
         });
@@ -104,10 +104,10 @@ module.exports = function(grunt) {
     function doTranslations(files, locale, translator) {
       files.forEach(function(f) {
         f.src.filter(srcExists).map(function(filepath) {
-          var pathInfo = getPathInfo(filepath, f.dest),
+          var pathInfo = getPathInfo(filepath, f),
               context = getContext(f.context, pathInfo);
           if (locale !== options.defaultLocale) {
-            pathInfo.outfile = path.join(f.dest, locale, pathInfo.outfilePath, pathInfo.outfileName);
+            pathInfo.outfile = path.join(f.orig.dest, locale, pathInfo.outfilePath, pathInfo.outfileName);
           }
           context.locale = locale;
           options.locals[options.translateFunctionName] = function() {
@@ -127,11 +127,25 @@ module.exports = function(grunt) {
     }
 
     // Get path info for src/dest
-    function getPathInfo(filepath, dest) {
-      var outfileName = path.basename(filepath, '.swig'),
-        dirName = path.dirname(filepath),
-        outfilePath = path.normalize(path.relative(options.templatesDir, dirName)),
-        outfile = path.join(dest, outfilePath, outfileName);
+    function getPathInfo(filepath, fileInfoObj) {
+      var isExpandedPair = fileInfoObj.orig.expand || false,
+        dest = fileInfoObj.dest,
+        outfileName = path.basename(filepath, '.swig'),
+        dirName,
+        outfilePath,
+        outfile;
+      if (grunt.util._.endsWith(fileInfoObj.dest, '/')) {
+        dest = (isExpandedPair) ? fileInfoObj.dest : path.join(fileInfoObj.dest, filepath);
+      }
+      // check for `expand: true`
+      if (!isExpandedPair) {
+        dirName = path.dirname(filepath);
+        outfilePath = path.normalize(path.relative(options.templatesDir, dirName));
+      } else {
+        dirName = (path.dirname(filepath) + '/').replace(fileInfoObj.orig.cwd, '');
+        outfilePath = path.normalize(path.relative(options.templatesDir, dirName));
+      }
+      outfile = dest.replace('.swig', '');
       return { outfileName: outfileName, dirName: dirName, outfilePath: outfilePath, outfile: outfile };
     }
 
